@@ -1,0 +1,7 @@
+name: MessageAPI
+version: 1.0.0
+author: Blo0dR0gue
+
+main: de.blo0dr0gue.messageapi.Main
+
+commands:
