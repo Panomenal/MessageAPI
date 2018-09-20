@@ -15,6 +15,17 @@ public class MessageAPI {
 		this.cache = cache;
 		cm = CacheManager.getInstance();
 	}
+	
+	public String getLanguage(Player p) {
+		String back = null;
+		if(cm.isCached(p)==true){
+			back = cm.getCache(p);
+		}else {
+			back = main.mysql_z.selectLanguage(p);
+			cm.setCache(p, back);
+		}
+		return back;
+	}
 
 	/**
 	 * Returns the Message from the DB for dif. Langauges
@@ -25,11 +36,11 @@ public class MessageAPI {
 	 */
 	public String msg(Player p, String shorthandsymbol) {
 		String message = null;
-		String language = main.mysql_z.selectLanguage(p);
+		String language = getLanguage(p);
 
 		if (this.cache == true) {
 			if (cm.isCached(language, shorthandsymbol) == true) {
-				message = cm.getCache(language, shorthandsymbol);
+					message = cm.getCache(language, shorthandsymbol);
 			} else {
 				message = main.mysql_z.selectMessage(language, shorthandsymbol);
 				message = ChatColor.translateAlternateColorCodes('&', message);
@@ -48,17 +59,17 @@ public class MessageAPI {
 	 * 
 	 * @param Player p
 	 * @param String shorthandsymbol
-	 * @param        String... replace
+	 * @param String... replace
 	 * @return String message
 	 */
 	public String msg(Player p, String shorthandsymbol, String... replace) {
 		int count = 1;
 		String message = null;
-		String language = main.mysql_z.selectLanguage(p);
+		String language = getLanguage(p);
 
 		if (this.cache == true) {
 			if (cm.isCached(language, shorthandsymbol) == true) {
-				message = cm.getCache(language, shorthandsymbol);
+					message = cm.getCache(language, shorthandsymbol);
 			} else {
 				message = main.mysql_z.selectMessage(language, shorthandsymbol);
 				message = ChatColor.translateAlternateColorCodes('&', message);
