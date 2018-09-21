@@ -85,22 +85,59 @@ public class MAPICacheManager {
 		removeCache(language, shorthandsymbol);
 		setCache(language, shorthandsymbol, message);
 	}
+	
+	public void updateCacheAll() {
+		List<String> l = new ArrayList<String>(messages.keySet());
+		if (l.size() > 0) {
+			for (int i = 0; i < l.size(); i++) {
+				String check = l.get(i);
+				String[] parts = check.split("-");
+				String language = parts[0];
+				String shorthandsymbol = parts[1];
+				String messageDB = MessageMain.getInstance().mysql_z.selectMessage(language, shorthandsymbol);
+				if (getCache(language, shorthandsymbol).equals(messageDB)) {
+				} else {
+					if (isCached(language, shorthandsymbol) == true) {
+						updateCache(language, shorthandsymbol, messageDB);
+					}
+				}
+			}
+		}
+		
+		
+		List<Player> lp = new ArrayList<Player>(players.keySet());
+		if(lp.size()>0) {
+			for (int i = 0; i < lp.size(); i++) {
+				Player check = lp.get(i);
+				String languageDB = MessageMain.getInstance().mysql_z.selectLanguage(check);
+				if (getCache(check).equals(languageDB)) {
+				} else {
+					if (isCached(check) == true) {
+						updateCache(check, languageDB);
+					}
+				}
+			}
+		}
+		
+	}
 
 	public void startCheckerMessage(Integer min) {
 		TimerTask meinTimerTask = new TimerTask() {
 			public void run() {
 
 				List<String> l = new ArrayList<String>(messages.keySet());
-				for (int i = 0; i < l.size(); i++) {
-					String check = l.get(i);
-					String[] parts = check.split("-");
-					String language = parts[0];
-					String shorthandsymbol = parts[1];
-					String messageDB = MessageMain.getInstance().mysql_z.selectMessage(language, shorthandsymbol);
-					if (getCache(language, shorthandsymbol).equals(messageDB)) {
-					} else {
-						if (isCached(language, shorthandsymbol) == true) {
-							updateCache(language, shorthandsymbol, messageDB);
+				if (l.size() > 0) {
+					for (int i = 0; i < l.size(); i++) {
+						String check = l.get(i);
+						String[] parts = check.split("-");
+						String language = parts[0];
+						String shorthandsymbol = parts[1];
+						String messageDB = MessageMain.getInstance().mysql_z.selectMessage(language, shorthandsymbol);
+						if (getCache(language, shorthandsymbol).equals(messageDB)) {
+						} else {
+							if (isCached(language, shorthandsymbol) == true) {
+								updateCache(language, shorthandsymbol, messageDB);
+							}
 						}
 					}
 				}
@@ -116,13 +153,15 @@ public class MAPICacheManager {
 			public void run() {
 
 				List<Player> l = new ArrayList<Player>(players.keySet());
-				for (int i = 0; i < l.size(); i++) {
-					Player check = l.get(i);
-					String languageDB = MessageMain.getInstance().mysql_z.selectLanguage(check);
-					if (getCache(check).equals(languageDB)) {
-					} else {
-						if (isCached(check) == true) {
-							updateCache(check, languageDB);
+				if(l.size()>0) {
+					for (int i = 0; i < l.size(); i++) {
+						Player check = l.get(i);
+						String languageDB = MessageMain.getInstance().mysql_z.selectLanguage(check);
+						if (getCache(check).equals(languageDB)) {
+						} else {
+							if (isCached(check) == true) {
+								updateCache(check, languageDB);
+							}
 						}
 					}
 				}

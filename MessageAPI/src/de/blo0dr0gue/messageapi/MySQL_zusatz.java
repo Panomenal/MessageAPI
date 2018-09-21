@@ -122,29 +122,24 @@ public class MySQL_zusatz {
 	}
 
 	/**
-	 * Update the language of an Player
+	 * Set the language of an Player
 	 * 
 	 * @param Player p
 	 * @param String language
-	 * @return String null/errors
 	 */
-	public String updateLanguage(Player p, String language) {
-		String back = null;
+	public void setLanguage(Player p, String language) {
 		try {
 			Statement st = con.createStatement();
 			if (ifExistsLangauge(p)) {
 				st.executeUpdate("UPDATE player_settings SET language='" + language + "' WHERE uuid='"
-						+ p.getUniqueId().toString() + "'");
+						+ p.getUniqueId().toString() + "';");
 			} else {
-				// normally this will be set by the first join (Lobby-Plugin)
-				back = "Error: The Player with the UUID: " + p.getUniqueId().toString()
-						+ " does not exists in the Database.";
+				st.executeQuery("INSERT INTO `player_settings`(`uuid`, `language`) VALUES ("+p.getUniqueId().toString()+","+language+");");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return back;
 	}
 
 }

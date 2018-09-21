@@ -6,9 +6,9 @@ import de.blo0dr0gue.mysqlapi.MySQLAPI;
 
 public class MessageMain extends JavaPlugin{
 		
-	public MySQLAPI mysql;
+	private MySQLAPI mysql;
 	public MySQL_zusatz mysql_z;
-	public MAPICacheManager cache;
+	private MAPICacheManager cache;
 	public static MessageMain instance;
 	
 	@Override
@@ -18,6 +18,8 @@ public class MessageMain extends JavaPlugin{
 		mysql_z = new MySQL_zusatz();
 		mysql_z.con = mysql.connect("minecraft_server");
 		cache = new MAPICacheManager();
+		cache.startCheckerMessage(5);
+		cache.startCheckerPlayer(5);
 	}
 	
 	@Override
@@ -25,6 +27,10 @@ public class MessageMain extends JavaPlugin{
 		mysql.disconnect();
 	}
 
+	/**
+	 * Do not Use !!!!!!!!
+	 * @return MessageMain instance
+	 */
 	public static MessageMain getInstance() {
 		return instance;
 	}

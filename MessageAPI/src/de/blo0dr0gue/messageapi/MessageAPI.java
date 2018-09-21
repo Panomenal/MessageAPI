@@ -8,23 +8,55 @@ public class MessageAPI {
 	private MessageMain main;
 	private MAPICacheManager cm;
 
-	private boolean cache;
+	public static boolean cache;
 
-	public MessageAPI(boolean cache) {
+	public MessageAPI(boolean pCache) {
 		main = MessageMain.getInstance();
-		this.cache = cache;
+		cache = pCache;
 		cm = MAPICacheManager.getInstance();
 	}
 	
+	/**
+	 * Get the Language of an Player
+	 * @param Player p
+	 * @return String language
+	 */
 	public String getLanguage(Player p) {
 		String back = null;
-		if(cm.isCached(p)==true){
-			back = cm.getCache(p);
+		if(cache == true) {
+			if(cm.isCached(p)==true){
+				back = cm.getCache(p);
+			}else {
+				back = main.mysql_z.selectLanguage(p);
+				cm.setCache(p, back);
+			}
 		}else {
 			back = main.mysql_z.selectLanguage(p);
-			cm.setCache(p, back);
 		}
 		return back;
+	}
+	
+	/**
+	 * Set the Language of an Player
+	 * @param Player p
+	 * @param String language
+	 */
+	public void setLanguage(Player p, String language) {
+		main.mysql_z.setLanguage(p, language);
+	}
+	
+	/**
+	 * Force an update of the Cached items | The Cached get updated all 5min manually
+	 * Only if Cache is enabled
+	 */
+	public void forceUpdateCache() {
+		try {
+			if(cache==true) {
+				cm.updateCacheAll();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -38,7 +70,7 @@ public class MessageAPI {
 		String message = null;
 		String language = getLanguage(p);
 
-		if (this.cache == true) {
+		if (cache == true) {
 			if (cm.isCached(language, shorthandsymbol) == true) {
 					message = cm.getCache(language, shorthandsymbol);
 			} else {
@@ -67,7 +99,7 @@ public class MessageAPI {
 		String message = null;
 		String language = getLanguage(p);
 
-		if (this.cache == true) {
+		if (cache == true) {
 			if (cm.isCached(language, shorthandsymbol) == true) {
 					message = cm.getCache(language, shorthandsymbol);
 			} else {
