@@ -6,14 +6,14 @@ import org.bukkit.entity.Player;
 public class MessageAPI {
 
 	private MessageMain main;
-	private CacheManager cm;
+	private MAPICacheManager cm;
 
 	private boolean cache;
 
 	public MessageAPI(boolean cache) {
 		main = MessageMain.getInstance();
 		this.cache = cache;
-		cm = CacheManager.getInstance();
+		cm = MAPICacheManager.getInstance();
 	}
 	
 	public String getLanguage(Player p) {

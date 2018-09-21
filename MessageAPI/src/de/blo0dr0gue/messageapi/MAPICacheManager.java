@@ -1,24 +1,24 @@
 package de.blo0dr0gue.messageapi;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.bukkit.entity.Player;
 
-public class CacheManager {
+public class MAPICacheManager {
 
-	private static CacheManager cache;
+	private static MAPICacheManager cache;
 	private HashMap<String, String> messages = new HashMap<>();
-	private String[] shorthandsymbol = new String[Integer.MAX_VALUE];
 	private HashMap<Player, String> players = new HashMap<>();
-	private String[] playerName = new String[Integer.MAX_VALUE];
 
-	public CacheManager() {
+	public MAPICacheManager() {
 		cache = this;
 	}
 
-	public static CacheManager getInstance() {
+	public static MAPICacheManager getInstance() {
 		return cache;
 	}
 
@@ -73,6 +73,10 @@ public class CacheManager {
 		return messages.get(language + "-" + shorthandsymbol);
 	}
 
+	public String getCache(String shorthandsymbolandlanguage) {
+		return messages.get(shorthandsymbolandlanguage);
+	}
+
 	public void removeCache(String language, String shorthandsymbol) {
 		messages.remove(language + "-" + shorthandsymbol);
 	}
@@ -82,19 +86,51 @@ public class CacheManager {
 		setCache(language, shorthandsymbol, message);
 	}
 
-	public void startChecker() {
+	public void startCheckerMessage(Integer min) {
 		TimerTask meinTimerTask = new TimerTask() {
 			public void run() {
-				
-				for(int i=0; i<messages.size();i++) {
-					
+
+				List<String> l = new ArrayList<String>(messages.keySet());
+				for (int i = 0; i < l.size(); i++) {
+					String check = l.get(i);
+					String[] parts = check.split("-");
+					String language = parts[0];
+					String shorthandsymbol = parts[1];
+					String messageDB = MessageMain.getInstance().mysql_z.selectMessage(language, shorthandsymbol);
+					if (getCache(language, shorthandsymbol).equals(messageDB)) {
+					} else {
+						if (isCached(language, shorthandsymbol) == true) {
+							updateCache(language, shorthandsymbol, messageDB);
+						}
+					}
 				}
-				
 			}
 		};
-		long delay = 1000 * 60 * 5; // 5 Minuten
+		long delay = 1000 * 60 * min;
 		Timer timer = new Timer();
 		timer.schedule(meinTimerTask, 0, delay);
+	}
+
+	public void startCheckerPlayer(Integer min) {
+		TimerTask playerTimerTask = new TimerTask() {
+			public void run() {
+
+				List<Player> l = new ArrayList<Player>(players.keySet());
+				for (int i = 0; i < l.size(); i++) {
+					Player check = l.get(i);
+					String languageDB = MessageMain.getInstance().mysql_z.selectLanguage(check);
+					if (getCache(check).equals(languageDB)) {
+					} else {
+						if (isCached(check) == true) {
+							updateCache(check, languageDB);
+						}
+					}
+				}
+			}
+		};
+		long delay = 1000 * 60 * min;
+		Timer playerTimer = new Timer();
+		playerTimer.schedule(playerTimerTask, 0, delay);
 	}
 
 }

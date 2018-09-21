@@ -8,7 +8,7 @@ public class MessageMain extends JavaPlugin{
 		
 	public MySQLAPI mysql;
 	public MySQL_zusatz mysql_z;
-	public CacheManager cache;
+	public MAPICacheManager cache;
 	public static MessageMain instance;
 	
 	@Override
@@ -17,7 +17,7 @@ public class MessageMain extends JavaPlugin{
 		mysql = new MySQLAPI();
 		mysql_z = new MySQL_zusatz();
 		mysql_z.con = mysql.connect("minecraft_server");
-		cache = new CacheManager();
+		cache = new MAPICacheManager();
 	}
 	
 	@Override
