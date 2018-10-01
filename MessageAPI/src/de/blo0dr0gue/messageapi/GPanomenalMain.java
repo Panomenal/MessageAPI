@@ -4,12 +4,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import de.blo0dr0gue.mysqlapi.MySQLAPI;
 
-public class MessageMain extends JavaPlugin{
+public class GPanomenalMain extends JavaPlugin{
 		
 	private MySQLAPI mysql;
 	public MySQL_zusatz mysql_z;
 	private MAPICacheManager cache;
-	public static MessageMain instance;
+	public static GPanomenalMain instance;
 	
 	@Override
 	public void onEnable() {
@@ -31,7 +31,7 @@ public class MessageMain extends JavaPlugin{
 	 * Do not Use !!!!!!!!
 	 * @return MessageMain instance
 	 */
-	public static MessageMain getInstance() {
+	public static GPanomenalMain getInstance() {
 		return instance;
 	}
 	

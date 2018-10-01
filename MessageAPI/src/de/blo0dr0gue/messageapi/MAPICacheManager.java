@@ -94,7 +94,7 @@ public class MAPICacheManager {
 				String[] parts = check.split("-");
 				String language = parts[0];
 				String shorthandsymbol = parts[1];
-				String messageDB = MessageMain.getInstance().mysql_z.selectMessage(language, shorthandsymbol);
+				String messageDB = GPanomenalMain.getInstance().mysql_z.selectMessage(language, shorthandsymbol);
 				if (getCache(language, shorthandsymbol).equals(messageDB)) {
 				} else {
 					if (isCached(language, shorthandsymbol) == true) {
@@ -109,7 +109,7 @@ public class MAPICacheManager {
 		if(lp.size()>0) {
 			for (int i = 0; i < lp.size(); i++) {
 				Player check = lp.get(i);
-				String languageDB = MessageMain.getInstance().mysql_z.selectLanguage(check);
+				String languageDB = GPanomenalMain.getInstance().mysql_z.selectLanguage(check);
 				if (getCache(check).equals(languageDB)) {
 				} else {
 					if (isCached(check) == true) {
@@ -132,7 +132,7 @@ public class MAPICacheManager {
 						String[] parts = check.split("-");
 						String language = parts[0];
 						String shorthandsymbol = parts[1];
-						String messageDB = MessageMain.getInstance().mysql_z.selectMessage(language, shorthandsymbol);
+						String messageDB = GPanomenalMain.getInstance().mysql_z.selectMessage(language, shorthandsymbol);
 						if (getCache(language, shorthandsymbol).equals(messageDB)) {
 						} else {
 							if (isCached(language, shorthandsymbol) == true) {
@@ -156,7 +156,7 @@ public class MAPICacheManager {
 				if(l.size()>0) {
 					for (int i = 0; i < l.size(); i++) {
 						Player check = l.get(i);
-						String languageDB = MessageMain.getInstance().mysql_z.selectLanguage(check);
+						String languageDB = GPanomenalMain.getInstance().mysql_z.selectLanguage(check);
 						if (getCache(check).equals(languageDB)) {
 						} else {
 							if (isCached(check) == true) {

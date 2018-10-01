@@ -5,13 +5,13 @@ import org.bukkit.entity.Player;
 
 public class MessageAPI {
 
-	private MessageMain main;
+	private GPanomenalMain main;
 	private MAPICacheManager cm;
 
 	public static boolean cache;
 
 	public MessageAPI(boolean pCache) {
-		main = MessageMain.getInstance();
+		main = GPanomenalMain.getInstance();
 		cache = pCache;
 		cm = MAPICacheManager.getInstance();
 	}
