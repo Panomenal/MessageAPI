@@ -3,14 +3,14 @@ package de.blo0dr0gue.messageapi;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class MessageAPI {
+public class PanomenalAPI {
 
 	private GPanomenalMain main;
 	private MAPICacheManager cm;
 
 	public static boolean cache;
 
-	public MessageAPI(boolean pCache) {
+	public PanomenalAPI(boolean pCache) {
 		main = GPanomenalMain.getInstance();
 		cache = pCache;
 		cm = MAPICacheManager.getInstance();
